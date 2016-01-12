@@ -17,7 +17,7 @@ class Socket
         'show_included_files' => false,
         'error_handler'       => false,
         //日志强制记录到配置的client_id
-        'force_client_id'     => '',
+        'force_client_ids'    => [],
         //限制允许读取日志的client_id
         'allow_client_ids'    => [],
     ];
@@ -30,6 +30,8 @@ class Socket
         'big'           => 'font-size:20px;color:red;',
     ];
 
+    protected $_allowForceClientIds = []; //配置强制推送且被授权的client_id
+
     /**
      * 架构函数
      * @param array $options 缓存参数
@@ -39,6 +41,10 @@ class Socket
     {
         if (!empty($config)) {
             $this->config = array_merge($this->config, $config);
+        }
+        if (isset($this->config['allow_client_id'])) {
+            //兼容旧配置
+            $this->allow_client_ids = array_merge($this->allow_client_ids, [$this->config['allow_client_id']]);
         }
     }
 
@@ -96,31 +102,56 @@ class Socket
         if (!$client_id = $this->getClientArg('client_id')) {
             $client_id = '';
         }
-        if ($force_client_id = $this->config['force_client_id']) {
-            $client_id = $force_client_id;
+
+        if (!empty($this->_allowForceClientIds)) {
+            //强制推送到多个client_id
+            foreach ($this->_allowForceClientIds as $force_client_id) {
+                $client_id = $force_client_id;
+                $this->sendToClient($tabid, $client_id, $logs, $force_client_id);
+            }
+        } else {
+            $this->sendToClient($tabid, $client_id, $logs, '');
         }
-        $logs = [
+
+    }
+
+    /**
+     * 发送给指定客户端
+     * @author Zjmainstay
+     * @param $tabid
+     * @param $client_id
+     * @param $logs
+     * @param $force_client_id
+     */
+    protected function sendToClient($tabid, $client_id, $logs, $force_client_id)
+    {
+        $logs = array(
             'tabid'           => $tabid,
             'client_id'       => $client_id,
             'logs'            => $logs,
             'force_client_id' => $force_client_id,
-        ];
-        $msg     = json_encode($logs);
+        );
+        $msg     = @json_encode($logs);
         $address = '/' . $client_id; //将client_id作为地址， server端通过地址判断将日志发布给谁
         $this->send($this->config['host'], $msg, $address);
     }
 
-    protected function check()
+    protected static function check()
     {
+        if (!$this->config['enable']) {
+            return false;
+        }
         $tabid = $this->getClientArg('tabid');
         //是否记录日志的检查
-        if (!$tabid && !$this->config['force_client_id']) {
+        if (!$tabid && !$this->config['force_client_ids']) {
             return false;
         }
         //用户认证
         $allow_client_ids = $this->config['allow_client_ids'];
         if (!empty($allow_client_ids)) {
-            if (!$tabid && in_array($this->config['force_client_id'], $allow_client_ids)) {
+            //通过数组交集得出授权强制推送的client_id
+            $this->_allowForceClientIds = array_intersect($allow_client_ids, $this->config['force_client_ids']);
+            if (!$tabid && count($this->_allowForceClientIds)) {
                 return true;
             }
 
@@ -128,6 +159,8 @@ class Socket
             if (!in_array($client_id, $allow_client_ids)) {
                 return false;
             }
+        } else {
+            $this->_allowForceClientIds = $this->config['force_client_ids'];
         }
         return true;
     }
