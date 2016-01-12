@@ -5,7 +5,7 @@ if [ $(phpenv version-name) != "hhvm" ]; then
 
     if [ $(phpenv version-name) = "7.0" ]; then
         echo "yes" | pecl install apcu-5.1.2
-        pecl install apcu_bc
+        pecl install apcu_bc-beta
     else
         echo "yes" | pecl install apcu-4.0.10
     fi
