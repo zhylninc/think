@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2015 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -24,6 +24,7 @@ defined('CORE_PATH') or define('CORE_PATH', LIB_PATH . 'think' . DS);
 defined('ORG_PATH') or define('ORG_PATH', LIB_PATH . 'org' . DS);
 defined('TRAIT_PATH') or define('TRAIT_PATH', LIB_PATH . 'traits' . DS);
 defined('APP_PATH') or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']) . DS);
+defined('APP_NAMESPACE') or define('APP_NAMESPACE', 'app');
 defined('COMMON_MODULE') or define('COMMON_MODULE', 'common');
 defined('RUNTIME_PATH') or define('RUNTIME_PATH', realpath(APP_PATH) . DS . 'runtime' . DS);
 defined('DATA_PATH') or define('DATA_PATH', RUNTIME_PATH . 'data' . DS);
@@ -35,6 +36,7 @@ defined('EXT') or define('EXT', '.php');
 defined('MODEL_LAYER') or define('MODEL_LAYER', 'model');
 defined('VIEW_LAYER') or define('VIEW_LAYER', 'view');
 defined('CONTROLLER_LAYER') or define('CONTROLLER_LAYER', 'controller');
+defined('APP_MULTI_MODULE') or define('APP_MULTI_MODULE', true); // 是否多模块
 defined('APP_DEBUG') or define('APP_DEBUG', false); // 是否调试模式
 defined('APP_HOOK') or define('APP_HOOK', false); // 是否开启HOOK
 defined('ENV_PREFIX') or define('ENV_PREFIX', 'T_'); // 环境变量的配置前缀

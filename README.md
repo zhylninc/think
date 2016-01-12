@@ -75,7 +75,7 @@ www  WEB部署目录（或者子目录）
 │  ├─mode               应用模式目录
 │  ├─tpl                系统模板目录
 │  ├─base.php           基础定义文件
-│  ├─help.php           助手函数文件
+│  ├─helper.php           助手函数文件
 │  ├─convention.php     框架惯例配置文件
 │  └─start.php          框架入口文件
 ~~~
@@ -93,6 +93,7 @@ ThinkPHP5的命名规范如下：
 *   目录和文件名采用小写+下划线，并且以小写字母开头；
 *   类库、函数文件统一以`.php`为后缀；
 *   类的文件名均以命名空间定义，并且命名空间的路径和类库文件所在路径一致；
+*   类名和类文件名保持一致，统一采用驼峰法命名（首字母大写）；
 
 ### 函数和类、属性命名
 *   类的命名采用驼峰法，并且首字母大写，例如 `User`、`UserType`，不需要添加后缀，例如UserController应该直接命名为User；
@@ -107,12 +108,6 @@ ThinkPHP5的命名规范如下：
 
 ### 数据表和字段
 *   数据表和字段采用小写加下划线方式命名，并注意字段名不要以下划线开头，例如 think_user 表和 user_name字段，类似 _username 这样的数据表字段可能会被过滤。
-
-### 实例化规范
-在ThinkPHP5.0中实例化一个类，可以采用：
-`\Think\Route` 或者`\think\Route`都是有效的，并且都是加载`think\route.php`文件，如果实例化一个
-`\Org\UploadFile`类的话会自动加载
-`org\upload_file.php`文件。
 
 ## 参与开发
 注册并登录 Github 帐号， fork 本项目并进行改动。
@@ -132,6 +127,21 @@ ThinkPHP5的命名规范如下：
 
 进行改动时请注意：
 * 本项目代码格式化标准选用 **PSR-2**；
+* 类名和类文件名遵循 **PSR-4**；
 * 若对上述修改流程有任何不清楚的地方，请查阅 GIT 教程，如 [这个](http://backlogtool.com/git-guide/cn/)；
 * 对于代码**不同方面**的修改，请在自己 fork 的项目中**创建不同的分支**（原因参见`修改流程`第9条备注部分）；
 * 对于 Issues 的处理，请在 pull requests 时使用诸如 `修复 #xxx(Issue ID)` 的 title 直接关闭 issue。
+
+## 版权信息
+
+ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
+
+本项目包含的第三方源码和二进制文件之版权信息另行标注。
+
+版权所有Copyright © 2006-2016 by ThinkPHP (http://thinkphp.cn)
+
+All rights reserved。
+
+ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
+
+更多细节参阅 [LICENSE.txt](LICENSE.txt)
