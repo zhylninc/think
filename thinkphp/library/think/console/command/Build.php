@@ -16,7 +16,7 @@ use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
 
-class build extends Command
+class Build extends Command
 {
 
     /**

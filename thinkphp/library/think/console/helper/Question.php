@@ -332,7 +332,7 @@ class Question extends Helper
      * @param Output         $output
      * @param OutputQuestion $question
      * @return string
-     * @throws \Exception
+     * @throws null
      */
     private function validateAttempts($interviewer, Output $output, OutputQuestion $question)
     {
