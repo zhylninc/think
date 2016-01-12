@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if [ $(phpenv version-name) != "hhvm" ]; then
-
     pecl channel-update pecl.php.net
 
     if [ $(phpenv version-name) = "7.0" ]; then
@@ -10,8 +9,8 @@ if [ $(phpenv version-name) != "hhvm" ]; then
     else
         echo "yes" | pecl install apcu-4.0.10
     fi
-fi
 
-phpenv config-add tests/myconfig.ini
+    phpenv config-add tests/conf/apcu.ini
+fi
 
 composer self-update && composer install
